@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
-
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib
 
 def read_csv(location):
     df = pd.read_csv(location)
@@ -62,17 +64,33 @@ def replace_multiselect(df , coloumn):
     #Keeps only rows where Gender does NOT contain “;”; replaces all other rows with NaN in the DataFrame (in-place).
     # find the row that has ; and then using not make them false and then replace them with nan
 
+def visualize_data(df , coloumn , type , total_num = 5):
+    sns.set_style("darkgrid")
+    matplotlib.rcParams['font.size'] = 14
+    matplotlib.rcParams['figure.figsize'] = (9 , 5)
+    matplotlib.rcParams['figure.facecolor'] = '#00000000'
+    top_values = df[coloumn].value_counts().head(total_num)
+
+    if type == "bar":
+        plt.figure(figsize=(12,5))
+        plt.title(coloumn)
+        plt.xticks(rotation = 75)
+        sns.barplot(x=top_values.index , y=top_values)
+        plt.show()
+   
+
 def main():
     survery_raw_df = read_csv("Dataset//results.txt")
     raw_schema = pd.read_csv("Dataset//schema.txt" , index_col="Column").QuestionText
     survey_df , schema = get_required_info(survery_raw_df , raw_schema )
-    convert_numeric(survey_df , "Age1stCode")
-    convert_numeric(survey_df , "YearsCode")
-    convert_numeric(survey_df , "YearsCodePro")
-    drop_incorrect(survey_df , "Age" , 100 , 10 )
-    drop_incorrect(survey_df , "WorkWeekHrs" , 140 )
-    replace_multiselect(survey_df ,"Gender" )
-    print(survey_df["Gender"].value_counts())
+    # convert_numeric(survey_df , "Age1stCode")
+    # convert_numeric(survey_df , "YearsCode")
+    # convert_numeric(survey_df , "YearsCodePro")
+    # drop_incorrect(survey_df , "Age" , 100 , 10 )
+    # drop_incorrect(survey_df , "WorkWeekHrs" , 140 )
+    # replace_multiselect(survey_df ,"Gender" )
+
+    visualize_data(survey_df , "Age" , "bar" , 15)
 
 if __name__ == "__main__":
     main()
