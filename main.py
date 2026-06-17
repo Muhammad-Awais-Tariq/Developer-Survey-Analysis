@@ -144,6 +144,11 @@ def find_most_popular(df, this_year=True, loved=False):
         loved_percent = common.mean().sort_values(ascending=False) * 100
         visualize_data(loved_percent.head(5), "pie")
 
+def highest_work_hours(df):
+    countries_df = df.groupby("Country")[["WorkWeekHrs"]].mean().sort_values('WorkWeekHrs' , ascending=False) 
+    high_response_countires = countries_df[df["Country"].value_counts() > 250 ].head(15)
+    return high_response_countires
+
 def main():
     survery_raw_df = read_csv("Dataset//results.txt")
     raw_schema = pd.read_csv("Dataset//schema.txt" , index_col="Column").QuestionText
@@ -179,6 +184,12 @@ def main():
     """
 
     # find_most_popular(survey_df ,loved=True)
+
+    # question 4
+    """
+    find the countries with the highest work hours the country should hv more then 250 responses
+    """
+    print(highest_work_hours(survey_df))
 
 if __name__ == "__main__":
     main()
