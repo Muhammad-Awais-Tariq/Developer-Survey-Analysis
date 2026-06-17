@@ -57,7 +57,7 @@ def drop_incorrect(df , coloumn , max = 1000000 , min = 0):
 
 def replace_multiselect(df , coloumn):
     """
-    In the give data set for example the age allows for multiple selection and this will mess up the analysis so we hv to clean it by replacing it with empty value
+    In the give data set for example the gender allows for multiple selection and this will mess up the analysis so we hv to clean it by replacing it with empty value
     """
 
     df.where(~(df[coloumn].str.contains(";" , na = False)) , np.nan , inplace = True)
