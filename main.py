@@ -101,6 +101,10 @@ def visualize_data(df , type , total_num = 5 , coloumn = None):
         plt.xticks(rotation = 75)
         sns.countplot(y=df[coloumn])
         plt.show()   
+    else:
+        plt.title(coloumn)
+        sns.distplot(df[coloumn])
+        plt.show()
 
 def split_multicolumn(series):
     """
@@ -153,7 +157,7 @@ def main():
     survery_raw_df = read_csv("Dataset//results.txt")
     raw_schema = pd.read_csv("Dataset//schema.txt" , index_col="Column").QuestionText
     survey_df , schema = get_required_info(survery_raw_df , raw_schema )
-    # convert_numeric(survey_df , "Age1stCode")
+    convert_numeric(survey_df , "Age1stCode")
     # convert_numeric(survey_df , "YearsCode")
     # convert_numeric(survey_df , "YearsCodePro")
     # drop_incorrect(survey_df , "Age" , 100 , 10 )
@@ -189,7 +193,15 @@ def main():
     """
     find the countries with the highest work hours the country should hv more then 250 responses
     """
-    print(highest_work_hours(survey_df))
+    # print(highest_work_hours(survey_df))
+
+    # question 5
+    """
+    Age at which people hv wrote their first program ?
+    """
+
+    visualize_data(survey_df , "dist" , coloumn="Age1stCode")
+
 
 if __name__ == "__main__":
     main()
