@@ -66,7 +66,7 @@ def replace_multiselect(df , coloumn):
 
 def get_gender_counts(df):
     
-    return df["Gender"].value_counts()
+    return df["Gender"].value_counts(dropna = False)
 
 def visualize_data(df , coloumn , type , total_num = 5):
     sns.set_style("darkgrid")
@@ -86,7 +86,7 @@ def visualize_data(df , coloumn , type , total_num = 5):
         plt.title(coloumn)
         sns.histplot(data=df[coloumn] , bins=np.arange(10 , 80 , 5) , color="purple")
         plt.show()     
-    
+        
 
 
 def main():
