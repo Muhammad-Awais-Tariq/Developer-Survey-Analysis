@@ -1,2 +1,2 @@
 # Developer-Survey-Analysis
-A project to analyze the stack overflow developer survey
+A project to analyze stack overflow developer surveys
