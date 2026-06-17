@@ -136,7 +136,18 @@ def main():
     # gender_data = get_gender_counts(survey_df)
     # visualize_data(survey_df , "hbar" , coloumn= "EdLevel")
     # print(get_undergrad_percent(survey_df))
-    print(split_multicolumn(survey_df["DevType"]))
+    # print(split_multicolumn(survey_df["DevType"]))
+
+    #question 1
+    """
+    Which is the most popular programming language?
+
+    """
+
+    programming_frame = split_multicolumn(survey_df["LanguageWorkedWith"])
+    language_percent = programming_frame.mean().sort_values(ascending=False) * 100
+    visualize_data(language_percent.head(5) , "pie" )
+
 
 if __name__ == "__main__":
     main()
