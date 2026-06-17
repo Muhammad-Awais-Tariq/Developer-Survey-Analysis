@@ -68,6 +68,10 @@ def get_gender_counts(df):
     
     return df["Gender"].value_counts(dropna = False)
 
+def get_undergrad_percent(df):
+    prect_Value = df["UndergradMajor"].value_counts() * 100 / df["UndergradMajor"].count()
+    return prect_Value
+
 def visualize_data(df , type , total_num = 5 , coloumn = None):
     sns.set_style("darkgrid")
     matplotlib.rcParams['font.size'] = 14
@@ -96,7 +100,8 @@ def visualize_data(df , type , total_num = 5 , coloumn = None):
         plt.title(coloumn)
         plt.xticks(rotation = 75)
         sns.countplot(y=df[coloumn])
-        plt.show()        
+        plt.show()   
+
 def main():
     survery_raw_df = read_csv("Dataset//results.txt")
     raw_schema = pd.read_csv("Dataset//schema.txt" , index_col="Column").QuestionText
@@ -108,7 +113,8 @@ def main():
     # drop_incorrect(survey_df , "WorkWeekHrs" , 140 )
     # replace_multiselect(survey_df ,"Gender" )
     # gender_data = get_gender_counts(survey_df)
-    visualize_data(survey_df , "hbar" , coloumn= "EdLevel")
+    # visualize_data(survey_df , "hbar" , coloumn= "EdLevel")
+    print(get_undergrad_percent(survey_df))
 
 if __name__ == "__main__":
     main()
