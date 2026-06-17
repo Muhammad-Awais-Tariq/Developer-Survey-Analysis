@@ -68,14 +68,14 @@ def get_gender_counts(df):
     
     return df["Gender"].value_counts(dropna = False)
 
-def visualize_data(df , coloumn , type , total_num = 5):
+def visualize_data(df , type , total_num = 5 , coloumn = None):
     sns.set_style("darkgrid")
     matplotlib.rcParams['font.size'] = 14
     matplotlib.rcParams['figure.figsize'] = (9 , 5)
     matplotlib.rcParams['figure.facecolor'] = '#00000000'
-    top_values = df[coloumn].value_counts().head(total_num)
 
     if type == "bar":
+        top_values = df[coloumn].value_counts().head(total_num)
         plt.figure(figsize=(12,5))
         plt.title(coloumn)
         plt.xticks(rotation = 75)
@@ -86,9 +86,12 @@ def visualize_data(df , coloumn , type , total_num = 5):
         plt.title(coloumn)
         sns.histplot(data=df[coloumn] , bins=np.arange(10 , 80 , 5) , color="purple")
         plt.show()     
-        
-
-
+    elif type == "pie":
+        plt.figure(figsize=(12,5))
+        plt.title(coloumn)
+        plt.pie(df , labels=df.index , autopct="%1.1f%%" , startangle=180)
+        plt.show()            
+    
 def main():
     survery_raw_df = read_csv("Dataset//results.txt")
     raw_schema = pd.read_csv("Dataset//schema.txt" , index_col="Column").QuestionText
@@ -99,8 +102,8 @@ def main():
     # drop_incorrect(survey_df , "Age" , 100 , 10 )
     # drop_incorrect(survey_df , "WorkWeekHrs" , 140 )
     replace_multiselect(survey_df ,"Gender" )
-    print(get_gender_counts(survey_df))
-    # visualize_data(survey_df , "Age" , "hist" )
+    gender_data = get_gender_counts(survey_df)
+    visualize_data(gender_data , "pie" )
 
 if __name__ == "__main__":
     main()
