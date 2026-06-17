@@ -77,7 +77,11 @@ def visualize_data(df , coloumn , type , total_num = 5):
         plt.xticks(rotation = 75)
         sns.barplot(x=top_values.index , y=top_values)
         plt.show()
-   
+    elif type == "hist":
+        plt.figure(figsize=(12,5))
+        plt.title(coloumn)
+        sns.histplot(data=df[coloumn] , bins=np.arange(10 , 80 , 5) , color="purple")
+        plt.show()        
 
 def main():
     survery_raw_df = read_csv("Dataset//results.txt")
@@ -90,7 +94,7 @@ def main():
     # drop_incorrect(survey_df , "WorkWeekHrs" , 140 )
     # replace_multiselect(survey_df ,"Gender" )
 
-    visualize_data(survey_df , "Age" , "bar" , 15)
+    visualize_data(survey_df , "Age" , "hist" )
 
 if __name__ == "__main__":
     main()
