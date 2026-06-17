@@ -123,15 +123,27 @@ def split_multicolumn(series):
 
     return results_df[options]
 
-def find_most_popular(df , this_year = True):
-    if this_year:
+def find_most_popular(df, this_year=True, loved=False):
+
+    if this_year and not loved:
         programming_frame = split_multicolumn(df["LanguageWorkedWith"])
         language_percent = programming_frame.mean().sort_values(ascending=False) * 100
-        visualize_data(language_percent.head(5) , "pie" )
-    else:
+        visualize_data(language_percent.head(5), "pie")
+
+    elif not this_year and not loved:
         programming_frame = split_multicolumn(df["LanguageDesireNextYear"])
         language_percent = programming_frame.mean().sort_values(ascending=False) * 100
-        visualize_data(language_percent.head(5) , "pie" )        
+        visualize_data(language_percent.head(5), "pie")
+
+    elif loved:
+        worked = split_multicolumn(df["LanguageWorkedWith"])
+        desired = split_multicolumn(df["LanguageDesireNextYear"])
+
+        common = worked & desired   
+
+        loved_percent = common.mean().sort_values(ascending=False) * 100
+        visualize_data(loved_percent.head(5), "pie")
+
 def main():
     survery_raw_df = read_csv("Dataset//results.txt")
     raw_schema = pd.read_csv("Dataset//schema.txt" , index_col="Column").QuestionText
@@ -153,14 +165,20 @@ def main():
 
     """
 
-    find_most_popular(survey_df , True)
+    # find_most_popular(survey_df , True)
 
     #question 2
     """
     Which languages are people going to be most interested in the next year ?
     """
-    find_most_popular(survey_df , False)
+    # find_most_popular(survey_df , False)
 
+    # question 3
+    """
+    find the most loved languages ?
+    """
+
+    # find_most_popular(survey_df ,loved=True)
 
 if __name__ == "__main__":
     main()
