@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+
 
 def read_csv(location):
     df = pd.read_csv(location)
@@ -51,6 +53,15 @@ def drop_incorrect(df , coloumn , max = 1000000 , min = 0):
     df.drop(df[df[coloumn] > max].index , inplace = True)
     df.drop(df[df[coloumn] < min].index , inplace = True)
 
+def replace_multiselect(df , coloumn):
+    """
+    In the give data set for example the age allows for multiple selection and this will mess up the analysis so we hv to clean it by replacing it with empty value
+    """
+
+    df.where(~(df[coloumn].str.contains(";" , na = False)) , np.nan , inplace = True)
+    #Keeps only rows where Gender does NOT contain “;”; replaces all other rows with NaN in the DataFrame (in-place).
+    # find the row that has ; and then using not make them false and then replace them with nan
+
 def main():
     survery_raw_df = read_csv("Dataset//results.txt")
     raw_schema = pd.read_csv("Dataset//schema.txt" , index_col="Column").QuestionText
@@ -60,7 +71,8 @@ def main():
     convert_numeric(survey_df , "YearsCodePro")
     drop_incorrect(survey_df , "Age" , 100 , 10 )
     drop_incorrect(survey_df , "WorkWeekHrs" , 140 )
-    print(survey_df.describe())
+    replace_multiselect(survey_df ,"Gender" )
+    print(survey_df["Gender"].value_counts())
 
 if __name__ == "__main__":
     main()
