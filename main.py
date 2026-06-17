@@ -72,40 +72,44 @@ def get_undergrad_percent(df):
     prect_Value = df["UndergradMajor"].value_counts() * 100 / df["UndergradMajor"].count()
     return prect_Value
 
-def visualize_data(df , type , total_num = 5 , coloumn = None):
+def visualize_data(df, type, total_num=5, coloumn=None):
     sns.set_style("darkgrid")
     matplotlib.rcParams['font.size'] = 14
-    matplotlib.rcParams['figure.figsize'] = (9 , 5)
+    matplotlib.rcParams['figure.figsize'] = (9, 5)
     matplotlib.rcParams['figure.facecolor'] = '#00000000'
 
     if type == "bar":
         top_values = df[coloumn].value_counts().head(total_num)
-        plt.figure(figsize=(12,5))
-        plt.title(coloumn)
-        plt.xticks(rotation = 75)
-        sns.barplot(x=top_values.index , y=top_values)
-        plt.show()
-    elif type == "hist":
-        plt.figure(figsize=(12,5))
-        plt.title(coloumn)
-        sns.histplot(data=df[coloumn] , bins=np.arange(10 , 80 , 5) , color="purple")
-        plt.show()     
-    elif type == "pie":
-        plt.figure(figsize=(12,5))
-        plt.title(coloumn)
-        plt.pie(df , labels=df.index , autopct="%1.1f%%" , startangle=180)
-        plt.show()            
-    elif type == "hbar":
-        plt.figure(figsize=(12,6))
-        plt.title(coloumn)
-        plt.xticks(rotation = 75)
-        sns.countplot(y=df[coloumn])
-        plt.show()   
-    else:
-        plt.title(coloumn)
-        sns.distplot(df[coloumn])
-        plt.show()
+        fig, ax = plt.subplots(figsize=(12, 5))  
+        ax.set_title(coloumn)
+        plt.xticks(rotation=75)
+        sns.barplot(x=top_values.index, y=top_values, ax=ax)
+        return fig                                 
 
+    elif type == "hist":
+        fig, ax = plt.subplots(figsize=(12, 5))
+        ax.set_title(coloumn)
+        sns.histplot(data=df[coloumn], bins=np.arange(10, 80, 5), color="purple", ax=ax)
+        return fig
+
+    elif type == "pie":
+        fig, ax = plt.subplots(figsize=(12, 5))
+        ax.set_title(coloumn)
+        ax.pie(df, labels=df.index, autopct="%1.1f%%", startangle=180)
+        return fig
+
+    elif type == "hbar":
+        fig, ax = plt.subplots(figsize=(12, 6))
+        ax.set_title(coloumn)
+        sns.countplot(y=df[coloumn], ax=ax)
+        return fig
+
+    else:
+        fig, ax = plt.subplots()
+        ax.set_title(coloumn)
+        sns.histplot(df[coloumn], ax=ax)   
+        return fig
+    
 def split_multicolumn(series):
     """
     Takes a column with multiple values separated by ';'

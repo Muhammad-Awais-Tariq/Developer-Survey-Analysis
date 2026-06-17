@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-
+from main import replace_multiselect , 
 st.set_page_config(page_title="Survey Analysis", layout="centered")
 
 st.title("Stack overflow surver analysis")
