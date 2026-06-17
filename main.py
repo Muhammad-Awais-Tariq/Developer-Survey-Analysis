@@ -64,6 +64,10 @@ def replace_multiselect(df , coloumn):
     #Keeps only rows where Gender does NOT contain “;”; replaces all other rows with NaN in the DataFrame (in-place).
     # find the row that has ; and then using not make them false and then replace them with nan
 
+def get_gender_counts(df):
+    
+    return df["Gender"].value_counts()
+
 def visualize_data(df , coloumn , type , total_num = 5):
     sns.set_style("darkgrid")
     matplotlib.rcParams['font.size'] = 14
@@ -81,7 +85,9 @@ def visualize_data(df , coloumn , type , total_num = 5):
         plt.figure(figsize=(12,5))
         plt.title(coloumn)
         sns.histplot(data=df[coloumn] , bins=np.arange(10 , 80 , 5) , color="purple")
-        plt.show()        
+        plt.show()     
+    
+
 
 def main():
     survery_raw_df = read_csv("Dataset//results.txt")
@@ -92,9 +98,9 @@ def main():
     # convert_numeric(survey_df , "YearsCodePro")
     # drop_incorrect(survey_df , "Age" , 100 , 10 )
     # drop_incorrect(survey_df , "WorkWeekHrs" , 140 )
-    # replace_multiselect(survey_df ,"Gender" )
-
-    visualize_data(survey_df , "Age" , "hist" )
+    replace_multiselect(survey_df ,"Gender" )
+    print(get_gender_counts(survey_df))
+    # visualize_data(survey_df , "Age" , "hist" )
 
 if __name__ == "__main__":
     main()
