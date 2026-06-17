@@ -91,7 +91,12 @@ def visualize_data(df , type , total_num = 5 , coloumn = None):
         plt.title(coloumn)
         plt.pie(df , labels=df.index , autopct="%1.1f%%" , startangle=180)
         plt.show()            
-    
+    elif type == "hbar":
+        plt.figure(figsize=(12,6))
+        plt.title(coloumn)
+        plt.xticks(rotation = 75)
+        sns.countplot(y=df[coloumn])
+        plt.show()        
 def main():
     survery_raw_df = read_csv("Dataset//results.txt")
     raw_schema = pd.read_csv("Dataset//schema.txt" , index_col="Column").QuestionText
@@ -101,9 +106,9 @@ def main():
     # convert_numeric(survey_df , "YearsCodePro")
     # drop_incorrect(survey_df , "Age" , 100 , 10 )
     # drop_incorrect(survey_df , "WorkWeekHrs" , 140 )
-    replace_multiselect(survey_df ,"Gender" )
-    gender_data = get_gender_counts(survey_df)
-    visualize_data(gender_data , "pie" )
+    # replace_multiselect(survey_df ,"Gender" )
+    # gender_data = get_gender_counts(survey_df)
+    visualize_data(survey_df , "hbar" , coloumn= "EdLevel")
 
 if __name__ == "__main__":
     main()
