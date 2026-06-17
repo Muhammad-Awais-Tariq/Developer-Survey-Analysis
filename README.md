@@ -2,6 +2,12 @@
 
 An interactive **Streamlit web application** for analyzing the Stack Overflow Annual Developer Survey. Upload survey data in CSV format and explore comprehensive insights about developer demographics, programming languages, work habits, and job satisfaction across the globe.
 
+## Try It Live
+ 
+**No setup required!** Try the app right now: **[https://bit.ly/4vOCMz5](https://bit.ly/4vOCMz5)**
+ 
+Or deploy it yourself locally (see instructions below).
+
 ---
 
 ## Features
