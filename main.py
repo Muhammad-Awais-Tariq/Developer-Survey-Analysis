@@ -102,6 +102,27 @@ def visualize_data(df , type , total_num = 5 , coloumn = None):
         sns.countplot(y=df[coloumn])
         plt.show()   
 
+def split_multicolumn(series):
+    """
+    Takes a column with multiple values separated by ';'
+    and converts it into a one-hot encoded DataFrame.
+    """
+
+    results_df = pd.DataFrame(index=series.index)
+    options = []
+
+    for idx, value in series.dropna().items():
+        for option in value.split(";"):
+            option = option.strip()
+
+            if option not in results_df.columns:
+                results_df[option] = False
+                options.append(option)
+
+            results_df.loc[idx, option] = True
+
+    return results_df[options]
+
 def main():
     survery_raw_df = read_csv("Dataset//results.txt")
     raw_schema = pd.read_csv("Dataset//schema.txt" , index_col="Column").QuestionText
@@ -114,7 +135,8 @@ def main():
     # replace_multiselect(survey_df ,"Gender" )
     # gender_data = get_gender_counts(survey_df)
     # visualize_data(survey_df , "hbar" , coloumn= "EdLevel")
-    print(get_undergrad_percent(survey_df))
+    # print(get_undergrad_percent(survey_df))
+    print(split_multicolumn(survey_df["DevType"]))
 
 if __name__ == "__main__":
     main()
