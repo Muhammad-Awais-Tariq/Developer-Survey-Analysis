@@ -123,6 +123,12 @@ def split_multicolumn(series):
 
     return results_df[options]
 
+def find_most_popular(df , this_year = True):
+    if this_year:
+        programming_frame = split_multicolumn(df["LanguageWorkedWith"])
+        language_percent = programming_frame.mean().sort_values(ascending=False) * 100
+        visualize_data(language_percent.head(5) , "pie" )
+    
 def main():
     survery_raw_df = read_csv("Dataset//results.txt")
     raw_schema = pd.read_csv("Dataset//schema.txt" , index_col="Column").QuestionText
@@ -144,9 +150,13 @@ def main():
 
     """
 
-    programming_frame = split_multicolumn(survey_df["LanguageWorkedWith"])
-    language_percent = programming_frame.mean().sort_values(ascending=False) * 100
-    visualize_data(language_percent.head(5) , "pie" )
+    find_most_popular(survey_df , True)
+
+    #question 2
+    """
+    Which languages are people going to be most interested in the next year ?
+    """
+
 
 
 if __name__ == "__main__":
